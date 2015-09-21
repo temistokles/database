@@ -155,7 +155,7 @@ class SqlBuilder extends Nette\Object
 		$queryJoins = $this->buildQueryJoins($joins);
 		$query = "{$querySelect} FROM {$this->delimitedTable}{$queryJoins}{$queryCondition}{$queryEnd}";
 
-		if ($this->limit !== NULL || $this->offset) {
+		if ($this->limit !== NULL || $this->offset > 0) {
 			$this->driver->applyLimit($query, $this->limit, $this->offset);
 		}
 
