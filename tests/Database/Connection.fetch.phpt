@@ -36,6 +36,19 @@ test(function () use ($connection) { // fetchPairs
 });
 
 
+test(function () use ($context) { // fetchAll + reference
+	$arr = $context->table('book')
+                       ->select('*')
+                       ->where('author.name', 'Jakub Vrana')
+                       ->fetchAll();
+	Assert::equal([
+		Nette\Database\Row::from(['id' => 1, 'author_id' => 11, 'translator_id' => 11, 'title' => '1001 tipu a triku pro PHP']),
+		Nette\Database\Row::from(['id' => 2, 'author_id' => 11, 'translator_id' => NULL, 'title' => 'JUSH']),
+	], $arr);
+});
+
+
+
 test(function () use ($connection) { // fetchAll
 	$arr = $connection->fetchAll('SELECT name, id FROM author WHERE id < ? ORDER BY id', 13);
 	Assert::equal([
