@@ -22,16 +22,6 @@ class MySqlDriver implements Nette\Database\Driver
 	public const ErrorDuplicateEntry = 1062;
 	public const ErrorDataTruncated = 1265;
 
-	/** @deprecated use MySqlDriver::ErrorAccessDenied */
-	public const ERROR_ACCESS_DENIED = self::ErrorAccessDenied;
-
-	/** @deprecated use MySqlDriver::ErrorDuplicateEntry */
-	public const ERROR_DUPLICATE_ENTRY = self::ErrorDuplicateEntry;
-
-	/** @deprecated use MySqlDriver::ErrorDataTruncated */
-	public const ERROR_DATA_TRUNCATED = self::ErrorDataTruncated;
-
-
 	private Nette\Database\Connection $connection;
 	private bool $supportBooleans;
 
