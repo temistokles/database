@@ -142,12 +142,13 @@ class SqliteDriver implements Nette\Database\Driver
 		foreach ($this->connection->query("PRAGMA table_info({$this->delimite($table)})") as $row) {
 			$column = $row['name'];
 			$pattern = "/(\"$column\"|`$column`|\\[$column\\]|$column)\\s+[^,]+\\s+PRIMARY\\s+KEY\\s+AUTOINCREMENT/Ui";
-			$type = explode('(', $row['type']);
+			$pair = explode('(', $row['type']);
 			$columns[] = [
 				'name' => $column,
 				'table' => $table,
-				'nativetype' => strtoupper($type[0]),
-				'size' => isset($type[1]) ? (int) $type[1] : null,
+				'type' => Nette\Database\Helpers::detectType($pair[0]),
+				'nativetype' => strtoupper($pair[0]),
+				'size' => isset($pair[1]) ? (int) $pair[1] : null,
 				'nullable' => $row['notnull'] === 0,
 				'default' => $row['dflt_value'],
 				'autoincrement' => $meta && preg_match($pattern, (string) $meta['sql']),
