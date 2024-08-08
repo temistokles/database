@@ -16,14 +16,14 @@ namespace Nette\Database;
 final class Type
 {
 	public const
-		Binary = 'bin',
-		Boolean = 'bool',
+		Binary = 'binary',
+		Boolean = 'boolean',
 		Date = 'date',
 		DateTime = 'datetime',
 		Decimal = 'decimal',
 		Float = 'float',
-		Integer = 'int',
-		Interval = 'timeint',
-		Text = 'string',
+		Integer = 'integer',
+		Interval = 'interval',
+		Text = 'text',
 		Time = 'time';
 }
