@@ -218,10 +218,9 @@ class Helpers
 				$row[$key] = is_float($tmp = $value * 1) ? $value : $tmp;
 
 			} elseif ($type === Type::Float || $type === Type::Decimal) {
-				if (is_string($value) && ($pos = strpos($value, '.')) !== false) {
-					$value = rtrim(rtrim($pos === 0 ? "0$value" : $value, '0'), '.');
+				if (is_string($value) && str_starts_with($value, '.')) {
+					$value = '0' . $value;
 				}
-
 				$row[$key] = (float) $value;
 
 			} elseif ($type === Type::Boolean) {
