@@ -7,7 +7,7 @@ use Tester\Assert;
 require __DIR__ . '/../../bootstrap.php';
 
 
-$driver = new Nette\Database\Drivers\OdbcDriver;
+$driver = new Nette\Database\Driver\PDO\ODBCDriver;
 
 Assert::exception(function () use ($driver) {
 	$query = 'SELECT 1 FROM t';

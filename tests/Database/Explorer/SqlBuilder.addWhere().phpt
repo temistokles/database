@@ -8,7 +8,7 @@
 declare(strict_types=1);
 
 use Nette\Database\Conventions\DiscoveredConventions;
-use Nette\Database\Driver;
+use Nette\Database\Driver\Driver;
 use Nette\Database\SqlLiteral;
 use Nette\Database\Table\SqlBuilder;
 use Tester\Assert;

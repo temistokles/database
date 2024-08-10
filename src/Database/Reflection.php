@@ -19,7 +19,7 @@ final class Reflection
 
 
 	public function __construct(
-		private readonly Driver $driver,
+		private readonly Driver\Driver $driver,
 	) {
 		unset($this->tables);
 	}
@@ -67,7 +67,7 @@ final class Reflection
 
 
 	/** @internal */
-	public function getDriver(): Driver
+	public function getDriver(): Driver\Driver
 	{
 		return $this->driver;
 	}

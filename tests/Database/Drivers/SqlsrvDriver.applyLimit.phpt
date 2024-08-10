@@ -7,9 +7,9 @@ use Tester\Assert;
 require __DIR__ . '/../../bootstrap.php';
 
 
-$rc = new ReflectionClass(Nette\Database\Drivers\SqlsrvDriver::class);
+$rc = new ReflectionClass(Nette\Database\Driver\PDO\SQLSrvDriver::class);
 $driver = $rc->newInstanceWithoutConstructor();
-$version = $rc->getProperty('version');
+$version = new ReflectionProperty(Nette\Database\Driver\SQLServerDriver::class, 'version');
 $version->setAccessible(true);
 $version->setValue($driver, '10');
 

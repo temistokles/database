@@ -20,12 +20,22 @@ use PDOException;
  */
 class Connection
 {
+	private const Drivers = [
+		'pdo-mssql' => Driver\PDO\MSSqlDriver::class,
+		'pdo-mysql' => Driver\PDO\MySQLDriver::class,
+		'pdo-oci' => Driver\PDO\OCIDriver::class,
+		'pdo-odbc' => Driver\PDO\ODBCDriver::class,
+		'pdo-pgsql' => Driver\PDO\PgSQLDriver::class,
+		'pdo-sqlite' => Driver\PDO\SQLiteDriver::class,
+		'pdo-sqlsrv' => Driver\PDO\SQLSrvDriver::class,
+	];
+
 	/** @var array<callable(self): void>  Occurs after connection is established */
 	public array $onConnect = [];
 
 	/** @var array<callable(self, ResultSet|DriverException): void>  Occurs after query is executed */
 	public array $onQuery = [];
-	private Driver $driver;
+	private Driver\Driver $driver;
 	private SqlPreprocessor $preprocessor;
 	private ?PDO $pdo = null;
 
@@ -63,7 +73,7 @@ class Connection
 		}
 
 		$class = empty($this->options['driverClass'])
-			? 'Nette\Database\Drivers\\' . ucfirst(str_replace('sql', 'Sql', $this->pdo->getAttribute(PDO::ATTR_DRIVER_NAME))) . 'Driver'
+			? self::Drivers['pdo-' . $this->pdo->getAttribute(PDO::ATTR_DRIVER_NAME)]
 			: $this->options['driverClass'];
 		$this->driver = new $class;
 		$this->preprocessor = new SqlPreprocessor($this);
@@ -98,7 +108,7 @@ class Connection
 	}
 
 
-	public function getDriver(): Driver
+	public function getDriver(): Driver\Driver
 	{
 		$this->connect();
 		return $this->driver;
@@ -106,7 +116,7 @@ class Connection
 
 
 	/** @deprecated use getDriver() */
-	public function getSupplementalDriver(): Driver
+	public function getSupplementalDriver(): Driver\Driver
 	{
 		trigger_error(__METHOD__ . '() is deprecated, use getDriver()', E_USER_DEPRECATED);
 		$this->connect();

@@ -7,15 +7,15 @@
 
 declare(strict_types=1);
 
-namespace Nette\Database\Drivers;
+namespace Nette\Database\Driver;
 
 use Nette;
 
 
 /**
- * Supplemental SQLite3 database driver.
+ * Base SQLite3 database driver.
  */
-class SqliteDriver implements Nette\Database\Driver
+abstract class SQLiteDriver implements Driver
 {
 	private Nette\Database\Connection $connection;
 	private string $fmtDateTime;

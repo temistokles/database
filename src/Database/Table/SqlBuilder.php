@@ -11,7 +11,7 @@ namespace Nette\Database\Table;
 
 use Nette;
 use Nette\Database\Conventions;
-use Nette\Database\Driver;
+use Nette\Database\Driver\Driver;
 use Nette\Database\Explorer;
 use Nette\Database\IStructure;
 use Nette\Database\SqlLiteral;

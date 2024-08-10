@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-use Nette\Database\Driver;
+use Nette\Database\Driver\Driver;
 use Nette\Database\Type;
 use Tester\Assert;
 

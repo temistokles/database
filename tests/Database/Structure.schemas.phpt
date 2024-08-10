@@ -30,7 +30,7 @@ class StructureMock extends Structure
 class StructureSchemasTestCase extends TestCase
 {
 	private Nette\Database\Connection $connection;
-	private Nette\Database\Driver $driver;
+	private Nette\Database\Driver\Driver $driver;
 	private Nette\Caching\Storage $storage;
 	private Structure $structure;
 
@@ -38,7 +38,7 @@ class StructureSchemasTestCase extends TestCase
 	protected function setUp()
 	{
 		parent::setUp();
-		$this->driver = Mockery::mock(Nette\Database\Driver::class);
+		$this->driver = Mockery::mock(Nette\Database\Driver\Driver::class);
 		$this->connection = Mockery::mock(Nette\Database\Connection::class);
 		$this->storage = Mockery::mock(Nette\Caching\Storage::class);
 

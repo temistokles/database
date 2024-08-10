@@ -7,15 +7,15 @@
 
 declare(strict_types=1);
 
-namespace Nette\Database\Drivers;
+namespace Nette\Database\Driver;
 
 use Nette;
 
 
 /**
- * Supplemental SQL Server 2005 and later database driver.
+ * Base SQL Server database driver.
  */
-class SqlsrvDriver implements Nette\Database\Driver
+abstract class SQLServerDriver implements Driver
 {
 	private Nette\Database\Connection $connection;
 	private string $version;

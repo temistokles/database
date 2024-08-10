@@ -7,15 +7,15 @@
 
 declare(strict_types=1);
 
-namespace Nette\Database\Drivers;
+namespace Nette\Database\Driver;
 
 use Nette;
 
 
 /**
- * Supplemental ODBC database driver.
+ * Base ODBC database driver.
  */
-class OdbcDriver implements Nette\Database\Driver
+abstract class ODBCDriver implements Driver
 {
 	public function initialize(Nette\Database\Connection $connection, array $options): void
 	{

@@ -7,15 +7,15 @@
 
 declare(strict_types=1);
 
-namespace Nette\Database\Drivers;
+namespace Nette\Database\Driver;
 
 use Nette;
 
 
 /**
- * Supplemental PostgreSQL database driver.
+ * Base PostgreSQL database driver.
  */
-class PgSqlDriver implements Nette\Database\Driver
+abstract class PostgreSQLDriver implements Driver
 {
 	private Nette\Database\Connection $connection;
 

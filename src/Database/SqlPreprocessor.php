@@ -49,7 +49,7 @@ class SqlPreprocessor
 	];
 
 	private readonly Connection $connection;
-	private readonly Driver $driver;
+	private readonly Driver\Driver $driver;
 	private array $params;
 	private array $remaining;
 	private int $counter;
@@ -231,7 +231,7 @@ class SqlPreprocessor
 						$vx[] = implode(', ', $vx2);
 					}
 
-					$select = $this->driver->isSupported(Driver::SupportMultiInsertAsSelect);
+					$select = $this->driver->isSupported(Driver\Driver::SupportMultiInsertAsSelect);
 					return '(' . implode(', ', $kx) . ($select ? ') SELECT ' : ') VALUES (')
 						. implode($select ? ' UNION ALL SELECT ' : '), (', $vx) . ($select ? '' : ')');
 				}

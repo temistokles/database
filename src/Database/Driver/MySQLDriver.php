@@ -7,16 +7,16 @@
 
 declare(strict_types=1);
 
-namespace Nette\Database\Drivers;
+namespace Nette\Database\Driver;
 
 use Nette;
 use Nette\Database\Type;
 
 
 /**
- * Supplemental MySQL database driver.
+ * Base MySQL database driver.
  */
-class MySqlDriver implements Nette\Database\Driver
+abstract class MySQLDriver implements Driver
 {
 	public const ErrorAccessDenied = 1045;
 	public const ErrorDuplicateEntry = 1062;
