@@ -26,9 +26,12 @@ interface Driver
 		SupportSchema = 'schema';
 
 	/**
-	 * Initializes connection.
+	 * Establishes connection.
 	 */
-	function initialize(Database\Connection $connection, array $options): void;
+	public function connect(
+		#[\SensitiveParameter]
+		array $params,
+	): Connection;
 
 	/**
 	 * Converts PDOException to DriverException or its descendant.

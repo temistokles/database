@@ -17,4 +17,11 @@ use Nette\Database\Driver;
  */
 class MSSQLDriver extends Driver\MSSQLDriver
 {
+	public function connect(
+		#[\SensitiveParameter]
+		array $params,
+	): Connection
+	{
+		return new Connection(Connection::createPDO(...$params));
+	}
 }

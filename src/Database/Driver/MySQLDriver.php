@@ -26,25 +26,9 @@ abstract class MySQLDriver implements Driver
 	private bool $supportBooleans;
 
 
-	/**
-	 * Driver options:
-	 *   - charset => character encoding to set (default is utf8 or utf8mb4 since MySQL 5.5.3)
-	 *   - sqlmode => see http://dev.mysql.com/doc/refman/5.0/en/server-sql-mode.html
-	 *   - supportBooleans => converts INT(1) to boolean
-	 */
 	public function initialize(Nette\Database\Connection $connection, array $options): void
 	{
 		$this->connection = $connection;
-		$charset = $options['charset']
-			?? (version_compare($connection->getPdo()->getAttribute(\PDO::ATTR_SERVER_VERSION), '5.5.3', '>=') ? 'utf8mb4' : 'utf8');
-		if ($charset) {
-			$connection->query('SET NAMES ?', $charset);
-		}
-
-		if (isset($options['sqlmode'])) {
-			$connection->query('SET sql_mode=?', $options['sqlmode']);
-		}
-
 		$this->supportBooleans = (bool) ($options['supportBooleans'] ?? false);
 	}
 

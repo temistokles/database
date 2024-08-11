@@ -17,4 +17,18 @@ use Nette\Database\Driver;
  */
 class SQLiteDriver extends Driver\SQLiteDriver
 {
+	public function connect(
+		#[\SensitiveParameter]
+		array $params,
+	): Connection
+	{
+		return (fn(
+			string $dsn,
+			?string $username = null,
+			#[\SensitiveParameter]
+			?string $password = null,
+			?array $options = null,
+			string $formatDateTime = 'U',
+		) => new Connection(Connection::createPDO($dsn, $username, $password, $options)))(...$params);
+	}
 }

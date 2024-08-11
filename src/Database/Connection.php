@@ -65,11 +65,11 @@ class Connection
 			return;
 		}
 
-		$this->conn = new Driver\PDO\Connection(Driver\PDO\Connection::createPDO($this->dsn, $this->user, $this->password, $this->options));
 		$class = empty($this->options['driverClass'])
-			? self::Drivers['pdo-' . $this->conn->getAttribute(PDO::ATTR_DRIVER_NAME)]
+			? (self::Drivers['pdo-' . strstr($this->dsn, ':', before_needle: true)] ?? throw new DriverException('Invalid data source ' . $this->dsn))
 			: $this->options['driverClass'];
 		$this->driver = new $class;
+		$this->conn = $this->driver->connect(['dsn' => $this->dsn, 'username' => $this->user, 'password' => $this->password, 'options' => $this->options]);
 		$this->preprocessor = new SqlPreprocessor($this);
 		$this->driver->initialize($this, $this->options);
 		Arrays::invoke($this->onConnect, $this);

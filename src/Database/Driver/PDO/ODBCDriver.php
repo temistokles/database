@@ -17,4 +17,11 @@ use Nette\Database\Driver;
  */
 class ODBCDriver extends Driver\ODBCDriver
 {
+	public function connect(
+		#[\SensitiveParameter]
+		array $params,
+	): Connection
+	{
+		return new Connection(Connection::createPDO(...$params));
+	}
 }
