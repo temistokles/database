@@ -17,9 +17,9 @@ use Nette\Database\Conventions;
  */
 class StaticConventions implements Conventions
 {
-	protected string $primary;
-	protected string $foreign;
-	protected string $table;
+	protected readonly string $primary;
+	protected readonly string $foreign;
+	protected readonly string $table;
 
 
 	/**

@@ -22,15 +22,15 @@ use Nette\Database\Explorer;
  */
 class Selection implements \Iterator, \ArrayAccess, \Countable
 {
-	protected Explorer $explorer;
-	protected ?Nette\Caching\Cache $cache;
+	protected readonly Explorer $explorer;
+	protected readonly ?Nette\Caching\Cache $cache;
 	protected SqlBuilder $sqlBuilder;
 
 	/** table name */
-	protected string $name;
+	protected readonly string $name;
 
 	/** @var string|string[]|null primary key field name */
-	protected string|array|null $primary;
+	protected readonly string|array|null $primary;
 
 	/** primary column sequence name, false for autodetection */
 	protected string|bool|null $primarySequence = false;

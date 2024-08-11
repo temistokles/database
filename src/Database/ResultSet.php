@@ -18,10 +18,10 @@ use PDO;
  */
 class ResultSet implements \Iterator
 {
-	private ?\PDOStatement $pdoStatement = null;
+	private readonly ?\PDOStatement $pdoStatement;
 
 	/** @var callable(array, ResultSet): array */
-	private $normalizer;
+	private readonly mixed $normalizer;
 	private Row|false|null $lastRow = null;
 	private int $lastRowKey = -1;
 
