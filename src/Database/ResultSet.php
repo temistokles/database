@@ -18,7 +18,7 @@ use PDO;
  */
 class ResultSet implements \Iterator
 {
-	private readonly ?\PDOStatement $pdoStatement;
+	private readonly ?Driver\Result $result;
 
 	/** @var callable(array, ResultSet): array */
 	private readonly mixed $normalizer;
@@ -45,14 +45,14 @@ class ResultSet implements \Iterator
 			if (str_starts_with($queryString, '::')) {
 				$connection->getPdo()->{substr($queryString, 2)}();
 			} else {
-				$this->pdoStatement = $connection->getPdo()->prepare($queryString);
+				$this->result = $connection->getPdo()->prepare($queryString);
 				foreach ($params as $key => $value) {
 					$type = gettype($value);
-					$this->pdoStatement->bindValue(is_int($key) ? $key + 1 : $key, $value, $types[$type] ?? PDO::PARAM_STR);
+					$this->result->bindValue(is_int($key) ? $key + 1 : $key, $value, $types[$type] ?? PDO::PARAM_STR);
 				}
 
-				$this->pdoStatement->setFetchMode(PDO::FETCH_ASSOC);
-				@$this->pdoStatement->execute(); // @ PHP generates warning when ATTR_ERRMODE = ERRMODE_EXCEPTION bug #73878
+				$this->result->setFetchMode(PDO::FETCH_ASSOC);
+				@$this->result->execute(); // @ PHP generates warning when ATTR_ERRMODE = ERRMODE_EXCEPTION bug #73878
 			}
 		} catch (\PDOException $e) {
 			$e = $connection->getDriver()->convertException($e);
@@ -75,9 +75,9 @@ class ResultSet implements \Iterator
 	/**
 	 * @internal
 	 */
-	public function getPdoStatement(): ?\PDOStatement
+	public function getPdoStatement(): ?Driver\Result
 	{
-		return $this->pdoStatement;
+		return $this->result;
 	}
 
 
@@ -95,19 +95,19 @@ class ResultSet implements \Iterator
 
 	public function getColumnCount(): ?int
 	{
-		return $this->pdoStatement ? $this->pdoStatement->columnCount() : null;
+		return $this->result ? $this->result->columnCount() : null;
 	}
 
 
 	public function getRowCount(): ?int
 	{
-		return $this->pdoStatement ? $this->pdoStatement->rowCount() : null;
+		return $this->result ? $this->result->rowCount() : null;
 	}
 
 
 	public function getColumnTypes(): array
 	{
-		$this->types ??= $this->connection->getDriver()->getColumnTypes($this->pdoStatement);
+		$this->types ??= $this->connection->getDriver()->getColumnTypes($this->result);
 		return $this->types;
 	}
 
@@ -183,13 +183,13 @@ class ResultSet implements \Iterator
 	 */
 	public function fetch(): ?Row
 	{
-		$data = $this->pdoStatement ? $this->pdoStatement->fetch() : null;
+		$data = $this->result ? $this->result->fetch() : null;
 		if (!$data) {
-			$this->pdoStatement->closeCursor();
+			$this->result->closeCursor();
 			return null;
 
-		} elseif ($this->lastRow === null && count($data) !== $this->pdoStatement->columnCount()) {
-			$duplicates = Helpers::findDuplicates($this->pdoStatement);
+		} elseif ($this->lastRow === null && count($data) !== $this->result->columnCount()) {
+			$duplicates = Helpers::findDuplicates($this->result);
 			trigger_error("Found duplicate columns in database result set: $duplicates.");
 		}
 

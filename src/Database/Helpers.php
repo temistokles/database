@@ -167,7 +167,7 @@ class Helpers
 	 * Common column type detection.
 	 * @return array<Type::*>
 	 */
-	public static function detectTypes(\PDOStatement $statement): array
+	public static function detectTypes(Driver\Result $statement): array
 	{
 		$types = [];
 		$count = $statement->columnCount(); // driver must be meta-aware, see PHP bugs #53782, #54695
@@ -371,7 +371,7 @@ class Helpers
 	/**
 	 * Finds duplicate columns in select statement
 	 */
-	public static function findDuplicates(\PDOStatement $statement): string
+	public static function findDuplicates(Driver\Result $statement): string
 	{
 		$cols = [];
 		for ($i = 0; $i < $statement->columnCount(); $i++) {

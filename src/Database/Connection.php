@@ -37,7 +37,7 @@ class Connection
 	public array $onQuery = [];
 	private Driver\Driver $driver;
 	private SqlPreprocessor $preprocessor;
-	private ?PDO $pdo = null;
+	private ?Driver\Connection $conn = null;
 
 	/** @var callable(array, ResultSet): array */
 	private $rowNormalizer = [Helpers::class, 'normalizeRow'];
@@ -61,19 +61,13 @@ class Connection
 
 	public function connect(): void
 	{
-		if ($this->pdo) {
+		if ($this->conn) {
 			return;
 		}
 
-		try {
-			$this->pdo = new PDO($this->dsn, $this->user, $this->password, $this->options);
-			$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		} catch (PDOException $e) {
-			throw ConnectionException::from($e);
-		}
-
+		$this->conn = new Driver\PDO\Connection(Driver\PDO\Connection::createPDO($this->dsn, $this->user, $this->password, $this->options));
 		$class = empty($this->options['driverClass'])
-			? self::Drivers['pdo-' . $this->pdo->getAttribute(PDO::ATTR_DRIVER_NAME)]
+			? self::Drivers['pdo-' . $this->conn->getAttribute(PDO::ATTR_DRIVER_NAME)]
 			: $this->options['driverClass'];
 		$this->driver = new $class;
 		$this->preprocessor = new SqlPreprocessor($this);
@@ -91,7 +85,7 @@ class Connection
 
 	public function disconnect(): void
 	{
-		$this->pdo = null;
+		$this->conn = null;
 	}
 
 
@@ -101,10 +95,10 @@ class Connection
 	}
 
 
-	public function getPdo(): PDO
+	public function getPdo(): Driver\Connection
 	{
 		$this->connect();
-		return $this->pdo;
+		return $this->conn;
 	}
 
 

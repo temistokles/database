@@ -220,7 +220,7 @@ abstract class PostgreSQLDriver implements Driver
 	}
 
 
-	public function getColumnTypes(\PDOStatement $statement): array
+	public function getColumnTypes(Result $statement): array
 	{
 		static $cache;
 		$item = &$cache[$statement->queryString];

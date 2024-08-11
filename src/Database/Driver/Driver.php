@@ -78,7 +78,7 @@ interface Driver
 	 * Returns associative array of detected types in result set.
 	 * @return array<string, Type::*>
 	 */
-	function getColumnTypes(\PDOStatement $statement): array;
+	function getColumnTypes(Result $statement): array;
 
 	/**
 	 * Cheks if driver supports specific property

@@ -222,7 +222,7 @@ abstract class SQLiteDriver implements Driver
 	}
 
 
-	public function getColumnTypes(\PDOStatement $statement): array
+	public function getColumnTypes(Result $statement): array
 	{
 		$types = [];
 		$count = $statement->columnCount();
